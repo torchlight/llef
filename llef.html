@@ -1,0 +1,460 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>LLEF for FMC</title>
+<style>
+body {line-height:1.3;}
+a.alg {text-decoration:underline dotted;}
+a.alg.f2ldestroying::before {content:'⚠ ';}
+a.alg.obscure::before {content:'obscure';text-decoration:none;background-color:black;color:white;margin-right:0.4rem;font-size:0.75rem;}
+a.alg.obscure.f2ldestroying::before {content:'⚠ obscure';}
+ul {padding-left:1.5em;margin:0;}
+p {margin-top:0;}
+li {margin-bottom:1rem;}
+table {width:1000px;}
+td {vertical-align:top;border:thin outset;}
+table img {width:130px;height:130px;}
+</style>
+</head>
+<body>
+<p>This is a collection of algs for solving the <abbr title='last layer edges first'>LLEF</abbr> method, with a focus on algs that are useful for FMC. However, it's <em>really hard</em> to memorise algs and be able to recall them if you don't keep seeing them in your solves. To that end, this collection also focuses an algs advanced CFOP users should already know, rather than shitty optimal algs that no speedsolver would ever use. In particular, most of these algs are common OLL and COLL algs, just used in a different context.</p>
+<p>This is <em>not</em> a "you should learn these algs for FMC" type of list. Use the ones you already know, but don't bother with the ones you don't. Some LLEF cases don't have optimal/almost-optimal algs that are also used in speedsolving, e.g. the three cases in the "remaining symmetric cases" section.</p>
+<p>As a general rule of thumb, two corner insertions take around 11-12 moves on average, while one insertion takes around 6 moves. (porkynator's FMC tutorial quotes slightly different values here.) In other words, using an alternative LLEF alg that's at most 3 moves longer in order to force a 3c skeleton rather than a 4c skeleton is usually worth it, 4 and 5 moves are pushing it, and 6 moves usually isn't worth it.</p>
+<p>As this is meant for FMC, some algs that destroy one of the F2L slots are also included. (These are marked as such.) Those algs are very unlikely to be useful if your F2L is fully solved, as they usually just lead into L4C even if they do solve an additional LL corner. However, if only the last slot's edge is solved, those algs might still end up being useful (a short 4c/5c skeleton is better than a long 4c/5c skeleton, even if it's not as good as a 3c skeleton).</p>
+<p>With the exception of the four cases under the "asymmetric" section, every LLEF case is mirror-symmetric and self-inverse (up to AUF). If the "standard" alg doesn't do something useful, you can always try the inverse and mirror algs too.</p>
+<p>The LLEF+1 cases are not mutually exclusive, so the same alg may show up in multiple sections.</p>
+<noscript><p>PS: this page makes use of scripting for some minor functionality. Maybe. I haven't really thought this through much.</p></noscript>
+<h1>Edges oriented (EP only)</h1>
+<p>This section contains a bunch of optimal ZBLL algs. If you get a short ZBLL alg that you happen to know, use that instead of anything here… unless it's a Sune variant cancelling into a 3c commutator (e.g. <a class='alg'>R2 D' R U2 R' D R2 U R' U R</a> = <a class='alg'>R' [R' D' R, U2] U2 R U R' U R</a>), in which case do the Sune/Antisune and look for insertions. The worst-case scenario is that you find the insertion that happens to be the one used in the ZBLL alg anyway.</p>
+<h2>Adjacent swap</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/oriented adj.svg'>
+</td><td>
+<p>There are no 8-move algs for this LLEF case.</p>
+<ul><li>
+<a class='alg'>L' U' L U' L' U2 L</a> and mirror/inverse (7f*)<br>
+Literally always just try the Sunes/Antisunes first. It's pretty likely that one of the four choices will lead to L3C, unless you have diagonal CP.<br>
+How you might know these: OLL, edge-first beginner methods.
+</li><li>
+<a class='alg'>(y') F2 U' M' U2 M U' F2</a> and mirror (9f)<br>
+If this leads to L3C, try doing 3e + 3c insertions instead.<br>
+How you might know these: some older beginner tutorials.
+</li><li>
+<a class='alg'>R U2 R2 U' R2 U' R2 U2 R</a> and mirror (9f)<br>
+Pretty unlikely that Sunes don't give 3c and Bruno does.<br>
+How you might know these: OLL.
+</li><li>
+<a class='alg'>(y') r U2 R2 F R F' R U2 r'</a> and mirror/inverse (9f)<br>
+2c2e alg; preserves two pairs.<br>
+How you might know these: COLL.
+</li><li>
+<a class='alg f2ldestroying'>R' U2 R U' R' U' R</a>, <a class='alg f2ldestroying'>(y) R U' R' U2 R U' R'</a> and other Sune-likes (7f*, destroys F2L)</br>
+Like the usual Sunes/Antisunes, these preserve an LL pair, but at a different location.<br>
+How you might know these: intuitive F2L, edge-first beginner methods like 8355.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oriented adj block.svg'>
+</td><td>
+<p>Also useful for fixing parity when you have blocks on adjacent faces that you don't want to break up.</p>
+<ul><li>
+<a class='alg'>(y) R2 D r' U2 r D' R' U2 R'</a> and mirror/inverse (9f*)<br>
+These preserve a pair on the last layer in addition to the 2×2 block.<br>
+How you might know these: standard headlights OLL alg but with some wide moves.
+</li><li>
+<a class='alg'>(y2) R' U L' U2 R U' R' U2 L R</a> and mirror/inverse (10f)<br>
+<a class='alg'>(y' x) R2 F R F' R U2 r' U r U2</a> and mirror/inverse (10f)<br>
+The optimal J perm algs.<br>
+How you might know these: PLL.
+</li><li>
+<a class='alg'>L' U R' U' L R U2 R' U' R</a> and mirror/inverse (10f)<br>
+I'm pretty sure the alg I use (above) is the inverse of the common one, but whatever.<br>
+How you might know these: OH COLL.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oriented adj z1.svg'>
+</td><td>
+<ul><li>
+<a class='alg'>R U2 R' U2 L' U R U' R' L</a> and mirror/inverse (10f*)<br>
+<a class='alg'>R U2 R' U' B' R U' R' U B</a> and mirror/inverse (10f*)<br>
+These two solve the same ZBLL case, but with different post-AUF. There are no other 10f algs for this LLEF+1 case.<br>
+How you might know these: COLL (S/AS).
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oriented adj z2.svg'>
+</td><td>
+<ul><li>
+<a class='alg'>R' U2 R F U' R' U' R U F'</a> and mirror (10f*)<br>
+Preserves one pair.<br>
+How you might know these: COLL.
+</li><li>
+<a class='alg f2ldestroying'>R2 U2 R2 U' R2 U' R2</a> and mirror (7f*, destroys F2L)<br>
+Preserves CO and two pairs.<br>
+How you might know these: F2L, TTLL.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oriented adj h.svg'>
+</td><td>
+<p>This LLEF+1 case is the inverse of the above LLEF+1 case, so just use the inverse algs.</p>
+</td></tr><tr><td>
+<img src='llef_files/oriented adj notantisune.svg'>
+</td><td>
+<p>This case looks like it can be solved with an Antisune, but it can't!</p>
+<ul><li>
+<a class='alg'>(y') r U2 R2 F R F' R U2 r'</a> and mirror/inverse (9f*)<br>
+Preserves one other pair.<br>
+How you might know these: COLL.
+</li><li>
+<a class='alg'>L R U2 R' U' R U2 L' U R'</a> and inverse (10f)<br>
+<a class='alg'>B2 L U L' B2 R D' R D R2</a> and inverse (10f)<br>
+Same J perm algs as the ones that showed up above, albeit mirrored.<br>
+How you might know these: PLL.
+</li><li>
+<a class='alg f2ldestroying'>R2 U2 R2 U' R2 U' R2</a> and inverse (7f*, destroys F2L)<br>
+Preserves CO and one other pair.<br>
+How you might know these: F2L, TTLL.
+</li></ul>
+</td></tr></table>
+
+<h2>Opposite swap</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/oriented opp.svg'>
+</td><td>
+<p>There are (up to symmetry/antisymmetry) three 10-move ZBLL cases for this LLEF case, but only two are included here as the remaining one doesn't have a simple or ergonomic optimal alg. Both of these 10-movers affect the same pieces as a T perm, so they preserve two pairs.</p>
+<ul><li>
+<a class='alg'>R2 u R2 u' R2 F2 u' F2 u F2</a> and mirror (10f*)<br>
+<a class='alg'>R2 U R2 u' R2 F2 U' F2 u F2</a> and mirror/inverse (10f*)<br>
+Optimal T perm algs. You really only need to know one of them, as it's very rare that the two algs will cancel a different number of moves.<br>
+How you might know these: OH PLL, combination of two F2L inserts.
+</li><li>
+<a class='alg'>r U' r U2 R' F R U2 r2 F</a> and mirror/inverse (10f*)<br>
+One of the two twisted T perms. (The other one sucks and is irrelevant.)<br>
+How you might know these: COLL.
+</li><li>
+<a class='alg'>[R' U R2 D r' : U2]</a> and mirror (11f)<br>
+Preserves two pairs.<br>
+How you might know these: COLL.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oriented opp z1.svg'>
+</td><td>
+<ul><li>
+<a class='alg'>M2 U M2 U F2 M2 F2 M2</a>, <a class='alg'>M2 U M2 U M2 F2 M2 F2</a> and mirror/inverse (12f*)<br>
+<a class='alg'>[M2 U : F2 M2 F2 M2]</a> and mirror/inverse (12f*)<br>
+<a class='alg obscure'>S M2 S' u M2 u' M2</a> and mirror/inverse (12f*)<br>
+A small selection of the many optimal Z perm algs. At least one of the above is guaranteed to cancel at least two moves (unless the scramble is literally an F2L skip).<br>
+How you might know these: PLL, Roux LSE.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oriented opp z2.svg'>
+</td><td>
+<ul><li>T perm (listed above).</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oriented opp bar.svg'>
+</td><td>
+<ul><li>
+<a class='alg obscure'>f R U R' U' f' F R U R' U' F'</a> and mirror (12f*)<br>
+While this LLEF+1 case doesn't have mirror symmetry, this alg solves both the listed LLEF+1 case and its mirror.<br>
+How you might know these: some beginner OLL tutorials.
+</li><li>
+<a class='alg obscure'>F R U R' U' F' R' U' F' U F R</a> (12f*)<br>
+How you might know this: you probably don't. I just felt like putting this in.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oriented opp oppositebar.svg'>
+</td><td>
+<ul><li>Twisted T perm (listed above).</li></ul>
+</td></tr>
+</td></tr></table>
+
+<h1>Edges permuted (EO only)</h1>
+<h2>Adjacent flip</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/pureflip adj.svg'>
+</td><td>
+<ul><li>
+<a class='alg'>(y') R U R2 F R F2 U F (U2)</a> and mirror (8f*)<br>
+This alg (aka fliptwist) is a shortest alg in FTM that only orients pieces without permuting them. Beyond using this as an LL alg, it's also useful for insertions.<br>
+Preserves a 2×2 block.<br>
+How you might know these: pure OLL, porkynator's FMC tutorial (because you should've read that first).
+</li><li>
+<a class='alg obscure'>F U R U2 R' F' U' L' U2 L</a> and mirror/inverse (10f)<br>
+The second half of the alg is the mirror of first half. Corners are preserved.<br>
+How you might know these: big cube ELL.
+</li><li>
+<a class='alg'>R U R' U R' F R F' R U2 R'</a> and mirror/inverse (11f)<br>
+How you might know these: OLLCP, CMLL.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/pureflip adj flippedpair1.svg'>
+</td><td>
+<ul><li>
+<a class='alg obscure'>F U R' U2 R2 U R2 U R F'</a> (10f*)<br>
+Preserves one pair.<br>
+How you might know this: OLLCP.
+</li><li>
+<a class='alg'>R' U2 R B' R B R' U R' U R</a> (11f)<br>
+Mirror inverse of one of the algs above.<br>
+How you might know this: OLLCP, CMLL.
+</li><li>
+<a class='alg obscure'>[F U' R2 D R' : U]</a> (11f)<br>
+Also flips another pair.<br>
+How you might know this: DRL's One-Look Wednesdays.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/pureflip adj flippedpair2.svg'>
+</td><td>
+<p>This LLEF+1 case is the inverse of the above.</p>
+</td></tr></table>
+
+<h2>Opposite flip</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/pureflip opp.svg'>
+</td><td>
+<ul><li>
+<a class='alg'>R' F' U' F U' R U R' U R</a> and mirror/inverse (10f*)<br>
+This 1LLL case has all corners twisted, has front-back symmetry, and is self-inverse up to AUF; remember how the corners are permuted and that can save you a bit of time on checking whether this will give 3c.<br>
+How you might know these: OLL.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/pureflip opp pair.svg'>
+</td><td>
+<p>Optimal is 11f, but the algs are super obscure. The 10f alg above won't get to L3C if and only if (i) it's a pure OLL case (1/3), (ii) CP is a front swap and UBR is oriented (1/9), or (iii) CP is a right swap and ULB is oriented (1/9). (ii) and (iii) are inverses of each other, so we don't need to look at them separately. Of the nine 1LLL cases in (i), two of them have three twisted corners and can be solved with a fliptwist. Of the three 1LLL cases in (ii), one of them has a flipped pair and so matches the next LLEF+1 case. In total, you're really only screwed 11/27 of the time when you get this LLEF+1 case.</p>
+<ul><li>
+<a class='alg obscure'>[R U2 R2 y' x' : R U R2 F R F2 U F U2]</a> and inverse (12f)<br>
+Consider using an insertion for fliptwist instead.<br>
+How you might know these: conjugate of fliptwist.
+</li><ul>
+</td></tr><tr><td>
+<img src='llef_files/pureflip opp flippedpair.svg'>
+</td><td>
+<p>This LLEF+1 case doesn't have mirror symmetry, but all of the algs listed below solve both the LLEF+1 case and its mirror.</p>
+<ul><li>
+<a class='alg'>(y2) R' U' R' F R F' R U' R' U2 R</a> and mirror/inverse (11f*)<br>
+How you might know these: CMLL, CLL (2×2×2).
+</li><li>
+<a class='alg obscure'>(y) [F U' R2 D R' : U2]</a> and mirror/inverse (11f*)<br>
+<a class='alg obscure'>(y) [F u' R2 d R' : U2]</a> and mirror/inverse (11f*)<br>
+How you might know these: OLLCP, flipped line 1LLL.
+</li><li>
+<a class='alg obscure f2ldestroying'>(y') F U' R U2 R' U F'</a> and mirror (7f*, destroys F2L)<br>
+How you might know these: ZBLS.
+</li></ul>
+</td></tr></table>
+
+<h2>Dot</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/pureflip dot.svg'>
+</td><td>
+<p>&gt;getting a dot case in FMC</p>
+<ul><li>
+<a class='alg'>M R U R' U r U2 r' U M'</a> and mirror/inverse (11f*)<br>
+Permutes the pieces like an H perm (preserves CP).<br>
+How you might know these: OLL.
+</li></ul>
+</td></tr></table>
+
+<h1>UD-axis-oriented</h1>
+<p>These are the cases where the edges are (up to AUF) oriented on the U-D axis, rather than on the F-B or L-R axes. These cases can always be solved LFRB 4-gen. (The orient-only dot case above technically also falls in this category, but it would be silly to repeat it.)</p>
+<h2>3-cycle</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/udoriented 3cycle.svg'>
+</td><td>
+<p>Like with the oriented-adjswap case at the top of this document, always try the wide Sunes first.</p>
+<ul><li>
+<a class='alg'>r U R' U R U2 r'</a> and mirror/inverse (7f*)<br>
+Preserves one pair and flips two pairs.<br>
+How you might know these: OLL.
+</li><li>
+<a class='alg'>(y) R U2 R' U2 R' F R F'</a> and mirror/inverse (8f)<br>
+<a class='alg obscure'>(y) r U2 R' U2 r' F R F'</a> and mirror/inverse (8f)<br>
+Flips one pair.<br>
+How you might know these: OLL, CMLL, CLL (2×2×2).
+</li><li>
+<a class='alg'>(y2) r' U r2 U' r2 U' r2 U r'</a> = <a class='alg'>(x) R' U R2 D' R2 U' R2 D R'</a> and mirror (9f)<br>
+Flips two pairs.<br>
+How you might know these: OLL.
+</li><li>
+<a class='alg'>(y2) R U2 R2 F R F' R U2 R'</a> and mirror/inverse (9f)<br>
+How you might know these: OLL.
+</li><li>
+<a class='alg obscure'>r U' L U2 R' U R U2 L2</a> and mirror/inverse (9f)<br>
+Preserves one pair and CO.<br>
+How you might know these: OLLCP, COALL, conjugate of J perm.
+</li><li>
+<a class='alg obscure'>(x') [R' : (R2 U R2 f2)2]</a> and mirror/inverse (9f)<br>
+Preserves a 3×1 block.<br>
+Optimal alg for this edge 3-cycle. (Normal alg would be more like <a class='alg'>M U M' U2 M U M'</a>, but that's 11f.) As with U perms, try doing 3e insertions instead.<br>
+How you might know these: you looked up algs to use for FMC.
+</li></ul>
+</td></tr></table>
+
+<h2>2-cycle</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/udoriented 2cycle.svg'>
+</td><td>
+<ul><li>
+<a class='alg'>(x2) [R' : R2 F R F' R U2 r' U r U2]</a> and mirror/inverse (11f*)<br>
+Preserves a P-shaped block. Try 2c2e insertions too.<br>
+How you might know these: conjugate of J perm.
+</li><li>
+<a class='alg'>(y2) M R U R' U R U2 R' U M'</a> and mirror/inverse (11f*)<br>
+How you might know these: OLL.
+</li><li>
+<a class='alg obscure'>(y') M R U2 R' U' R U' R' U' M'</a> and mirror/inverse (11f*)<br>
+How you might know these: OLLCP.
+</li><li>
+<a class='alg obscure f2ldestroying'>(y') l R U2 R' U' R U' R' U' l'</a> and mirror/inverse (9f*, destroys F2L)<br>
+Preserves a 2×2 block. Might be useful for parity if you can actually remember the alg.<br>
+How you might know these: variant of the previous alg.
+</li></ul>
+</td></tr></table>
+
+<h2>Dot opposite</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/udoriented dot.svg'>
+</td><td>
+<p>A decent number of dot OLLCP algs fall into this category, but still, &gt;getting a dot case in FMC.</p>
+<ul><li>
+<a class='alg'>R U2 R2 F R F' U2 R' F R F'</a> and mirror/inverse (11f*)<br>
+Flips two pairs.<br>
+How you might know these: OLL.
+</li><li>
+<a class='alg'>[R' U2 r U' r' : U2]</a> and mirror (11f*)<br>
+<a class='alg'>(y') [r' U' r U2 R' : U2]</a> and mirror (11f*)<br>
+Flips two pairs.<br>
+How you might know these: OLL.
+</li><li>
+<a class='alg obscure'>[F' R d2 R' F : U2]</a> and mirror (11f*)<br>
+How you might know these: if you use the [[F' R : <var>X</var>], U<var>x</var>] comms for K4.
+</li><li>
+<a class='alg obscure f2ldestroying'>F R' F' R2 U2 R2 F R F'</a> and mirror (9f*, destroys F2L)<br>
+Hedge, R U2 R', sledge. Basically how you might handle flipping four edges at F2L−1 if you wanted to cancel as many moves as possible.<br>
+Flips two pairs.<br>
+How you might know these: ZBLS.
+</li></ul>
+</td></tr></table>
+
+<h1>Remaining symmetric cases</h1>
+<h2>Dot adjacent</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/dot adj.svg'>
+</td><td>
+<p>Most of the optimal algs for this LLEF case are obscure unless you happen to know a bunch of the dot OLLCPs. As above, just avoid dots like the plague and you won't have to care.</p>
+<ul><li>
+<a class='alg'>[R' U R2 D r' : U']</a> and mirror/inverse (11f*)<br>
+Flips a 3×1 block and a pair.<br>
+How you might know these: ZBLS for R U R' / R' U' R insert with four bad edges, OLLCP, square root of optimal diag-T COLL.
+</li><li>
+<a class='alg obscure'>R' F' U2 F2 U R U' R' F' U2 R</a> and mirror/inverse (11f*)<br>
+Flips two pairs. Same as F R' F' R U R U' R' but with two extra flipped edges.<br>
+How you might know these: OLLCP.
+</li></ul>
+</td></tr></table>
+
+<h2>Opposite swaps</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/adjflip opp.svg'>
+</td><td>
+<ul><li>
+<a class='alg obscure'>(y2) R U R' F' L' U' L F</a> and mirror/inverse (8f*)<br>
+<a class='alg obscure'>(y2) [R U R' F' : U2]</a> and mirror (9f)<br>
+<a class='alg'>(y') [F R U' R' : U2]</a> and mirror (9f)<br>
+Note that the third one actually solves the mirror 1LLL of the rest; I just wrote it this way to make the relation clearer.<br>
+Preserves two pairs.<br>
+How you might know these: combination of two F2L inserts.
+</li><li>
+<a class='alg obscure'>F R U R' U' F2 L' U' L U F</a> and mirror/inverse (11f)<br>
+Preserves corners.<br>
+How you might know these: ELL.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/oppflip opp.svg'>
+</td><td>
+<ul><li>
+<a class='alg obscure'>R2 B' R' B R' F' U' F R U R'</a> and mirror/inverse (11f*)<br>
+Preserves two pairs and CO. You might want to try 2c2e insertions instead.<br>
+How you might know these: OLLCP, COALL, 22LL.
+</li></ul>
+</td></tr></table>
+
+<h1>Asymmetric cases</h1>
+<p>These cases are all 3-cycles and can be solved with a fruruf variant. There are no 7f algs for cases in this section.</p>
+<h2>Opposite flip</h2>
+<table><tr><td style='width:0;'>
+<img src='llef_files/asym a opp 3cycleview.svg'>
+<img src='llef_files/asym a opp 2cycleview.svg'>
+</td><td>
+<ul><li>
+<a class='alg'>F R U R' U' F'</a> (6f*)<br>
+Preserves a pair.<br>
+How you might know this: OLL.
+</li><li>
+<a class='alg'>R U R' U' R' F R F'</a> (8f)<br>
+Preserves a pair and flips two pairs. This is also a pair commutator: <a class='alg'>[l, F R' F']</a>.<br>
+How you might know this: OLL.
+</li><li>
+<a class='alg'>(y) R' U' R' F R F' U R</a> (8f)<br>
+Preserves a pair and flips a 3×1 block.<br>
+How you might know this: OLL.
+</li><li>
+<a class='alg'>R' F R U R' U' F' U R</a> (9f)<br>
+Preserves two pairs.<br>
+How you might know this: OLL, OLLCP.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/asym b opp 3cycleview.svg'>
+<img src='llef_files/asym b opp 2cycleview.svg'>
+</td><td>
+<p>This case is just the mirror of the above.</p>
+<ul><li>
+<a class='alg'>(y) R' F' U' F U R</a> (6f*)<br>
+How you might know this: OLL.
+</li><li>
+<a class='alg'>R' U' R U R B' R' B</a> (8f)<br>
+How you might know this: OLL.
+</li></ul>
+</td></tr></table>
+
+<h2>Adjacent flip</h2>
+<p>These are the inverses of the above two cases and are just included for completeness.</p>
+<table><tr><td style='width:0;'>
+<img src='llef_files/asym a adj 3cycleview.svg'>
+<img src='llef_files/asym a adj 2cycleview.svg'>
+</td><td>
+<ul><li>
+<a class='alg'>F U R U' R' F'</a> (6f*)<br>
+How you might know this: OLL.
+</li><li>
+<a class='alg'>F R' F' R U R U' R'</a> (8f)<br>
+How you might know this: OLL, OLLCP.
+</li></ul>
+</td></tr><tr><td>
+<img src='llef_files/asym b adj 3cycleview.svg'>
+<img src='llef_files/asym b adj 2cycleview.svg'>
+</td><td>
+<p>This case is just the mirror of the above.</p>
+<ul><li>
+<a class='alg'>(y) R' U' F' U F R</a> (6f*)<br>
+How you might know this: OLL.
+</li><li>
+<a class='alg'>B' R B R' U' R' U R</a> (8f)<br>
+How you might know this: OLL.
+</li></ul>
+</td></tr></table>
+
+<script>
+function create_acn_links()
+{
+	let els = document.querySelectorAll('a.alg');
+	for (let el of els)
+	{
+		let alg = el.textContent.trim();
+		let encoded_alg = encodeURIComponent(alg.replace(/\s+/g, '_').replace(/'/g, '-'));
+		el.href = `https://alg.cubing.net/?type=alg&alg=${encoded_alg}`;
+	}
+}
+
+create_acn_links();
+</script>
+</html>
